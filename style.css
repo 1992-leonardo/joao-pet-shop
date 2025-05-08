@@ -1,0 +1,128 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Rubik', sans-serif;
+    background-color: #ecf4f3;
+  }
+  
+  .main-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-wrapper {
+    background-color: #fff;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 900px;
+    min-height: 520px;
+    display: flex;
+  }
+  
+  .form-wrapper {
+    min-width: 45%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-container {
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .form-container h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .form-container p {
+    font-size: 13px;
+    color: #444;
+  }
+  
+  .form input {
+    width: 100%;
+    margin-bottom: 15px;
+    background-color: #eeeeee;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .form input:focus {
+    outline: 2px solid #4694a8;
+  }
+  
+  .login-button {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #4694a8, #357a8a);
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background: linear-gradient(135deg, #357a8a, #255e68);
+    transform: scale(1.05);
+  }
+  
+  .forgot-pass {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #4694a8;
+    font-size: 12px;
+  }
+  
+  .toggle-form {
+    margin-top: 15px;
+    font-size: 13px;
+  }
+  
+  .image-wrapper {
+    background: url("https://images.unsplash.com/photo-1560807707-8cc77767d783") no-repeat center center;
+    background-size: cover;
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .footer {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .campo-social {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .campo-social a {
+    text-decoration: none;
+    color: #4694a8;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+  
+  .campo-social a:hover {
+    color: #255e68;
+  }
+  

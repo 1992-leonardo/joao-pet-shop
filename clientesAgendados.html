@@ -1,0 +1,235 @@
+<!--
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-center">Clientes Agendados</h2>
+
+        <table class="table table-bordered table-hover" id="tabelaClientes">
+            <thead>
+                <tr>
+                    <th>Nome do PET</th>
+                    <th>Data e Horário do Banho</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                
+            </tbody>
+        </table>
+
+        <a href="agendarHorasPet.html" class="btn btn-primary">Voltar</a>
+    </div>
+
+    <script>
+        // Função para formatar data e hora no formato brasileiro
+        function formatarDataHora(dataHora) {
+            if (!dataHora) return '';
+            const data = new Date(dataHora);
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            const horas = String(data.getHours()).padStart(2, '0');
+            const minutos = String(data.getMinutes()).padStart(2, '0');
+            return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+        }
+
+        // Função para carregar os clientes
+        fetch('http://localhost:8080/api/clientes')
+            .then(response => response.json())
+            .then(clientes => {
+                console.log(clientes); // para debug
+                const tbody = document.querySelector('#tabelaClientes tbody');
+                clientes.forEach(cliente => {
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${cliente.nome || ''}</td>    
+                        <td>${formatarDataHora(cliente.dataHora)}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editarCliente(${cliente.id})">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="removerCliente(${cliente.id})">Remover</button>
+                        </td>
+                    `;
+
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao buscar clientes:', error);
+                alert('Erro ao carregar a lista de clientes.');
+            });
+
+        // Função para editar cliente
+        function editarCliente(id) {
+            const nome = prompt("Novo nome:");
+            const dataHora = prompt("Nova data e hora (formato: 2025-04-22T14:30):");
+
+            if (nome && dataHora) {
+                fetch(`http://localhost:8080/api/clientes/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nome, dataHora })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Cliente atualizado com sucesso!");
+                            location.reload();
+                        } else {
+                            alert("Erro ao atualizar o cliente.");
+                        }
+                    })
+                    .catch(error => console.error("Erro:", error));
+            }
+        }
+
+        // Função para remover cliente
+        function removerCliente(id) {
+            const confirmacao = confirm("Tem certeza que deseja remover este cliente?");
+            if (confirmacao) {
+                fetch(`http://localhost:8080/api/clientes/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Cliente removido com sucesso!");
+                            location.reload();
+                        } else {
+                            alert("Erro ao remover o cliente.");
+                        }
+                    })
+                    .catch(error => console.error("Erro:", error));
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <style>
+        .text-center {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-margin {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-center">Clientes Agendados</h2>
+
+        <table class="table table-bordered table-hover" id="tabelaClientes">
+            <thead>
+                <tr>
+                    <th>Nome do PET</th>
+                    <th>Data e Horário do Banho</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <a href="agendarHorasPet.html" class="btn btn-primary">Voltar</a>
+    </div>
+
+    <script>
+        // Função para formatar data/hora
+        function formatarDataHora(dataHora) {
+            if (!dataHora) return '';
+            const data = new Date(dataHora);
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            const horas = String(data.getHours()).padStart(2, '0');
+            const minutos = String(data.getMinutes()).padStart(2, '0');
+            return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+        }
+
+        // Carregar clientes do localStorage
+        function carregarClientes() {
+            const clientes = JSON.parse(localStorage.getItem("agendamentos")) || [];
+            const tbody = document.querySelector('#tabelaClientes tbody');
+            tbody.innerHTML = '';
+
+            if (clientes.length === 0) {
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+                td.colSpan = 3;
+                td.className = "text-center";
+                td.textContent = "Nenhum agendamento encontrado.";
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+                return;
+            }
+
+            clientes.forEach((cliente, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${cliente.nome || ''}</td>
+                    <td>${formatarDataHora(cliente.dataHora)}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm btn-margin" onclick="editarCliente(${index})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="removerCliente(${index})">Remover</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Editar cliente
+        function editarCliente(index) {
+            const clientes = JSON.parse(localStorage.getItem("agendamentos")) || [];
+            const cliente = clientes[index];
+
+            const novoNome = prompt("Novo nome do PET:", cliente.nome);
+            const novaData = prompt("Nova data e hora (formato: 2025-05-10T14:30):", cliente.dataHora);
+
+            if (novoNome && novaData) {
+                cliente.nome = novoNome;
+                cliente.dataHora = novaData;
+                clientes[index] = cliente;
+                localStorage.setItem("agendamentos", JSON.stringify(clientes));
+                alert("Agendamento atualizado com sucesso!");
+                carregarClientes();
+            }
+        }
+
+        // Remover cliente
+        function removerCliente(index) {
+            const confirmacao = confirm("Tem certeza que deseja remover este agendamento?");
+            if (confirmacao) {
+                const clientes = JSON.parse(localStorage.getItem("agendamentos")) || [];
+                clientes.splice(index, 1);
+                localStorage.setItem("agendamentos", JSON.stringify(clientes));
+                alert("Agendamento removido com sucesso!");
+                carregarClientes();
+            }
+        }
+
+        // Inicialização
+        carregarClientes();
+    </script>
+</body>
+</html>

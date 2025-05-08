@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - LP Creative</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <article class="main-container">
+      <div class="login-wrapper">
+        <section class="form-wrapper">
+          <div class="form-container">
+            <div class="form-messages">
+              <h2 id="form-title">Login</h2>
+              <p id="form-text">Digite seu EMAIL e SENHA para acessar.</p>
+              <br />
+            </div>
+
+            <!-- Mantendo o ID para o JS funcionar -->
+            <form id="login-form" class="form" action="#">
+              <!-- IDs que o JS usa -->
+              <input type="email" name="email" id="email" placeholder="E-mail" required />
+              <input type="password" name="senha" id="senha" placeholder="Senha" required />             
+
+              <!-- Botão com ID para JS -->
+              <div class="enviar">
+                <button type="submit" id="botao-login">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  Entrar
+                </button>
+              </div>
+
+              <!-- Link para cadastro -->
+              <div class="forgot-cadastro">
+                <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+              </div>
+            </form>           
+
+          </div>
+        </section>
+
+        <section class="image-wrapper"></section>
+      </div>
+    </article>
+  </main>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="funcionalidade.js"></script>
+</body>
+</html>
